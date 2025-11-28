@@ -127,7 +127,7 @@ def main():
     # ---------------------------------------------------
     if "student_id" in st.session_state:
 
-        st.header(f"🧑‍🎓 Welcome {st.session_state.student_profile.get('Student', '')}")
+        st.header(f"🧑‍🎓 Welcome {st.session_state.student_profile.get('Student', '').title()}")
 
         tab1, tab2, tab3 = st.tabs(["Profile", "Class Log", "Summary"])
 
