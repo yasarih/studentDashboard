@@ -77,7 +77,7 @@ def main():
             st.cache_data.clear()
             st.rerun()
 
-    sheet_id = "1BdCAPDmW601t2jcAMc-N4vMm3nqSWrm64bFoD7jZQtY"
+    sheet_id = "182rG1l10W_yDAp6wyLq6yywqlpdkanR5oagle0MNBsk"
     class_df = fetch_data(sheet_id, "Student class details")
 
     # ---------------- LOGIN -----------------
