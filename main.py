@@ -140,7 +140,7 @@ def main():
 
         # ------------------ CLASS LOG ------------------
         with tab2:
-                        if student_log.empty:
+            if student_log.empty:
                 st.info("No class log found.")
             else:
                 # Sheet column name -> display name
