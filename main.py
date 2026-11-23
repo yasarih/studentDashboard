@@ -140,28 +140,45 @@ def main():
 
         # ------------------ CLASS LOG ------------------
         with tab2:
-            if student_log.empty:
-                st.info("No class log found.")
-            else:
-                # Sheet column name -> display name
-                columns_to_show = {
-                    "Date": "Date",
-                    "Student": "Student Name",
-                    "Teachers Name": "Teacher Name",
-                    "Hr": "Hours",
-                    "Subject": "Subject",
-                }
-                available_cols = [
-                    col for col in columns_to_show if col in student_log.columns
-                ]
+            st.subheader("📖 Daily Class Log")
 
-                display_df = (
-                    student_log[available_cols]
-                    .rename(columns=columns_to_show)
-                    .reset_index(drop=True)
+            log_df = class_df.copy()
+
+            if "Student ID" not in log_df.columns:
+                st.error("❌ 'Student ID' column not found in sheet.")
+            else:
+                log_df["Student ID"] = (
+                    log_df["Student ID"].astype(str).str.strip().str.lower()
                 )
 
-                st.dataframe(display_df, use_container_width=True, hide_index=True)
+                # Only the logged-in student's records
+                student_log = log_df[
+                    log_df["Student ID"] == st.session_state.student_id
+                ]
+
+                if student_log.empty:
+                    st.info("No class log found.")
+                else:
+                    # Sheet column name -> display name
+                    columns_to_show = {
+                        "Date": "Date",
+                        "Student": "Student Name",
+                        "Teachers Name": "Teacher Name",
+                        "Hr": "Hours",
+                        "Subject": "Subject",
+                    }
+                    available_cols = [
+                        col for col in columns_to_show if col in student_log.columns
+                    ]
+
+                    display_df = (
+                        student_log[available_cols]
+                        .rename(columns=columns_to_show)
+                        .reset_index(drop=True)
+                    )
+
+                    st.dataframe(display_df, use_container_width=True, hide_index=True)
+
         # ------------------ SUMMARY ------------------
         with tab3:
             st.subheader("⏱️ Class Hours Summary")
