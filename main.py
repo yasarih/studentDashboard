@@ -140,31 +140,28 @@ def main():
 
         # ------------------ CLASS LOG ------------------
         with tab2:
-            st.subheader("📖 Daily Class Log")
-
-            log_df = class_df.copy()
-            log_df["Student ID"] = log_df["Student ID"].astype(str).str.lower()
-
-            student_log = log_df[
-                log_df["Student ID"] == st.session_state.student_id
-            ]
-
-            if student_log.empty:
+                        if student_log.empty:
                 st.info("No class log found.")
             else:
-                columns_to_show = [
-                    "Date", "Student ID", "Student",
-                    "Hr", "Teacher", "Subject"
-                ]
+                # Sheet column name -> display name
+                columns_to_show = {
+                    "Date": "Date",
+                    "Student": "Student Name",
+                    "Teachers Name": "Teacher Name",
+                    "Hr": "Hours",
+                    "Subject": "Subject",
+                }
                 available_cols = [
                     col for col in columns_to_show if col in student_log.columns
                 ]
 
-                st.dataframe(
-                    student_log[available_cols],
-                    use_container_width=True
+                display_df = (
+                    student_log[available_cols]
+                    .rename(columns=columns_to_show)
+                    .reset_index(drop=True)
                 )
 
+                st.dataframe(display_df, use_container_width=True, hide_index=True)
         # ------------------ SUMMARY ------------------
         with tab3:
             st.subheader("⏱️ Class Hours Summary")
